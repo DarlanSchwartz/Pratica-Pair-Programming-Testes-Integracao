@@ -43,7 +43,24 @@ describe("GET /fruits", () => {
   });
 
   it("should return ", async () => {
-    const response = await server.get("/fruits/32");
-    expect(response.body).toBe(404);
+    const response = await server.get("/fruits/batata");
+    expect(response.body).toBe(400);
+  });
+
+  it("should return one fruit when given a valid and existing id", async () => {
+    const fruit = await FruitsFactory.build("banana", 1.99);
+    const response = await server.get(`/fruits/${fruit.id}`);
+    expect(response.status).toEqual(fruit);
+  });
+
+  it("should return all fruits if no id is present", async () => {
+    const fruit1 = await FruitsFactory.build("banana", 1.99);
+    const fruit2 = await FruitsFactory.build("coco", 1.99);
+    const fruit3 = await FruitsFactory.build("laranja", 1.99);
+
+    const expectedBody = [fruit1, fruit2, fruit3];
+    
+    const response = await server.get("/fruits");
+    expect(response.body).toEqual(expectedBody);
   });
 });
