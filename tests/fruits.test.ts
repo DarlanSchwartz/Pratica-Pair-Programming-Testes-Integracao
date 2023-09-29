@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import app from "../src/app";
 import supertest from "supertest";
 import FruitsFactory from "./factories/fruit.factory";
@@ -39,18 +38,18 @@ describe("POST /fruits", () => {
 describe("GET /fruits", () => {
   it("should return status 404 when fruit doesnt exists", async () => {
     const response = await server.get("/fruits/32");
-    expect(response.body).toBe(404);
+    expect(response.status).toBe(404);
   });
 
-  it("should return ", async () => {
+  it("should return status 400 when id is invalid", async () => {
     const response = await server.get("/fruits/batata");
-    expect(response.body).toBe(400);
+    expect(response.status).toBe(400);
   });
 
   it("should return one fruit when given a valid and existing id", async () => {
     const fruit = await FruitsFactory.build("banana", 1.99);
     const response = await server.get(`/fruits/${fruit.id}`);
-    expect(response.status).toEqual(fruit);
+    expect(response.body).toEqual(fruit);
   });
 
   it("should return all fruits if no id is present", async () => {
@@ -59,7 +58,7 @@ describe("GET /fruits", () => {
     const fruit3 = await FruitsFactory.build("laranja", 1.99);
 
     const expectedBody = [fruit1, fruit2, fruit3];
-    
+
     const response = await server.get("/fruits");
     expect(response.body).toEqual(expectedBody);
   });
