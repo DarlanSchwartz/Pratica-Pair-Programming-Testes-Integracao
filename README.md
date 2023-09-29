@@ -20,3 +20,17 @@ Até o final do horário da aula 😄 (entregue até onde conseguiu fazer)
 - Por favor, apenas uma entrega por dupla!
 
 [T10 | Onboarding - Entregas de Práticas](https://respondea.typeform.com/to/QkVku8ar)
+
+Nome do banco de dados : fruits-pair-programming
+
+Comando do docker: 
+
+- Subir container
+```bash
+docker-compose up
+```
+
+- Desativar container
+```bash
+docker-compose down
+```
