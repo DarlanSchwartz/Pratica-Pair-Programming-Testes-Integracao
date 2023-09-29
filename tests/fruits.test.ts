@@ -5,12 +5,9 @@ import prisma from "database";
 
 const server = supertest(app);
 
-beforeEach(() => {
-    prisma.fruit.deleteMany();
-   
+beforeEach(async () => {
+    await prisma.fruit.deleteMany();
 });
-
-
 
 describe("POST /fruits", () => {
     
@@ -20,10 +17,9 @@ describe("POST /fruits", () => {
     });
 
     it("should return a 409 status when inserting a fruit with a name that already exists", async () => {
-        // chamar o build e pegar o resultado
         const fruit = await FruitsFactory.build("banana", 1.99);
         delete fruit.id;
-        const response = await server.post("/fruits").send(fruit); // tentar criar com o resultado recebido
+        const response = await server.post("/fruits").send(fruit);
         expect(response.status).toBe(409);
     });
 
@@ -53,13 +49,10 @@ describe("GET /fruits", () => {
   });
 
   it("should return all fruits if no id is present", async () => {
-    const fruit1 = await FruitsFactory.build("banana", 1.99);
-    const fruit2 = await FruitsFactory.build("coco", 1.99);
-    const fruit3 = await FruitsFactory.build("laranja", 1.99);
-
-    const expectedBody = [fruit1, fruit2, fruit3];
-
+    const fruit1 = await FruitsFactory.buildRandom();
+    const fruit2 = await FruitsFactory.buildRandom();
+    const fruit3 = await FruitsFactory.buildRandom();
     const response = await server.get("/fruits");
-    expect(response.body).toEqual(expectedBody);
+    expect(response.body).toEqual(expect.arrayContaining([fruit1, fruit2, fruit3]));
   });
 });

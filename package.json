@@ -2,9 +2,9 @@
   "name": "fruits-test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/server.ts",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon ./src/server.ts",
     "load:test:env": "dotenv -e .env.test",
     "test:coverage": "npm run load:test:env -- jest -- --coverage -i",
     "prisma:migrate:dev": "prisma migrate dev",
